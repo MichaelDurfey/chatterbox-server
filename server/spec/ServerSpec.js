@@ -56,19 +56,6 @@ describe('Node Server Request Listener Function', function() {
     expect(res._ended).to.equal(true);
   });
 
-  it('Should keep an object with a `results` array containing messages from POST requests',
-    function() {
-      var stubMsgOne = {
-        username: 'dancer',
-        message: 'step',
-      };     
-      var req = new stubs.request('/classes/messages', 'POST', stubMsgOne);
-      var res = new stubs.response();
-      handler.requestHandler(req, res);
-
-      expect(messages.results.length).to.equal(1);         
-    });
-
   it('Should send an object containing a `results` array', function() {
     var req = new stubs.request('/classes/messages', 'GET');
     var res = new stubs.response();
@@ -138,4 +125,24 @@ describe('Node Server Request Listener Function', function() {
       });
   });
 
+  it('Should keep an object with a `results` array containing messages from multiple post requests',
+    function() {
+      var stubMsgOne = {results: [{
+        username: 'dancer',
+        message: 'step',
+      }]};     
+      
+      var req = new stubs.request('/classes/messages', 'POST', stubMsgOne);
+      var res = new stubs.response();
+      handler.requestHandler(req, res);
+      req = new stubs.request('/classes/messages', 'GET');
+      res = new stubs.response();
+      handler.requestHandler(req, res);
+      var parsedBody = JSON.parse(res._data);
+      expect(parsedBody.results.length).to.equal(3);         
+    }
+  );
+
 });
+
+

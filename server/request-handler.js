@@ -37,7 +37,7 @@ var requestHandler = function(request, response) {
   // console.logs in your code.
   // console.log('Serving request type ' + request.method + ' for url ' + request.url);
   const {method, url } = request;
-  console.log(`method ${method} from url ${url}`);
+  // console.log(`method ${method} from url ${url}`);
 
   // The outgoing status.
   var statusCode = 200;
@@ -50,7 +50,7 @@ var requestHandler = function(request, response) {
     response.writeHead(statusCode, headers);
     response.end(JSON.stringify(messages));
   } else if (method === 'POST' && url === '/classes/messages') {
-    // console.log('this was a post', request);
+    console.log('this was a post', request);
     response.writeHead(201, headers);
     request.on('data', (chunk) => {
       body.push(chunk);
@@ -58,7 +58,6 @@ var requestHandler = function(request, response) {
       body = Buffer.concat(body).toString();
       messages.results.push(JSON.parse(body));
       response.end('message received!');
-      body = [];
     });
   } else if (method === 'OPTIONS' && url === '/classes/messages') {
     response.writeHead(200, headers);

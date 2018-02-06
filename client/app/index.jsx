@@ -75,9 +75,6 @@ class App extends React.Component {
       contentType: 'application/json',
       success() {
       },
-      error(data) {
-        console.log('failure', data);
-      },
     });
   }
 
