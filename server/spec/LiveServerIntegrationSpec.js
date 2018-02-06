@@ -66,6 +66,31 @@ describe('server', function() {
     });
   });
 
+  it('Should send a 200 status code for an OPTIONS request', function(done) {     
+    var requestParams = {
+      method: 'OPTIONS',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+    };  
+    request(requestParams, function(error, response, body) { 
+      expect(response.statusCode).to.equal(200);
+      console.log(response.headers);
+      done();
+    });
+  });
+  
+  it('Content type response header should equal "application/json" for a GET request', function(done) {     
+    var requestParams = {
+      method: 'GET',
+      uri: 'http://127.0.0.1:3000/classes/messages',
+    };  
+    request(requestParams, function(error, response, body) { 
+      expect(response.headers['content-type']).to.equal('application/json');
+      // console.log(response.headers['content-type']);
+      done();
+    });
+  });
+  
+
   it('Should 404 when asked for a nonexistent endpoint', function(done) {
     request('http://127.0.0.1:3000/arglebargle', function(error, response, body) {
       expect(response.statusCode).to.equal(404);

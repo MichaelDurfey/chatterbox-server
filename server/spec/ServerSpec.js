@@ -23,6 +23,18 @@ describe('Node Server Request Listener Function', function() {
     expect(res._ended).to.equal(true);
   });
 
+  it('should answer OPTIONS requests with a 200 status code', function() {
+
+    var req = new stubs.request('/classes/messages', 'OPTIONS');
+    var res = new stubs.response();
+
+    handler.requestHandler(req, res);
+
+    expect(res._responseCode).to.equal(200);
+    expect(res._ended).to.equal(true);
+  
+  });
+
   it('Should send back parsable stringified JSON', function() {
     var req = new stubs.request('/classes/messages', 'GET');
     var res = new stubs.response();
@@ -43,6 +55,19 @@ describe('Node Server Request Listener Function', function() {
     expect(parsedBody).to.be.an('object');
     expect(res._ended).to.equal(true);
   });
+
+  it('Should keep an object with a `results` array containing messages from POST requests',
+    function() {
+      var stubMsgOne = {
+        username: 'dancer',
+        message: 'step',
+      };     
+      var req = new stubs.request('/classes/messages', 'POST', stubMsgOne);
+      var res = new stubs.response();
+      handler.requestHandler(req, res);
+
+      expect(messages.results.length).to.equal(1);         
+    });
 
   it('Should send an object containing a `results` array', function() {
     var req = new stubs.request('/classes/messages', 'GET');

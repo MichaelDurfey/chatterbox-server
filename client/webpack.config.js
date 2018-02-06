@@ -1,7 +1,7 @@
 const path = require('path');
 
-const BUILD_DIR = path.resolve(__dirname, 'src/client/public');
-const APP_DIR = path.resolve(__dirname, 'src/client/app');
+const BUILD_DIR = path.resolve(__dirname, './build');
+const APP_DIR = path.resolve(__dirname, './app');
 
 const config = {
   entry: `${APP_DIR}/index.jsx`,
@@ -24,6 +24,7 @@ const config = {
   resolve: {
     extensions: ['.js', '.jsx'],
   },
+  devtool: 'cheap-module-source-map',
 };
 
 module.exports = config;

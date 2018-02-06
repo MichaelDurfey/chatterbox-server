@@ -37,6 +37,7 @@ var requestHandler = function(request, response) {
   // console.logs in your code.
   // console.log('Serving request type ' + request.method + ' for url ' + request.url);
   const {method, url } = request;
+  console.log(`method ${method} from url ${url}`);
 
   // The outgoing status.
   var statusCode = 200;
@@ -45,6 +46,7 @@ var requestHandler = function(request, response) {
   let body = [];
   const requestHeader = request.headers;
   if (method === 'GET' && url === '/classes/messages') {
+    headers['content-type'] = 'application/json';
     response.writeHead(statusCode, headers);
     response.end(JSON.stringify(messages));
   } else if (method === 'POST' && url === '/classes/messages') {
@@ -58,6 +60,9 @@ var requestHandler = function(request, response) {
       response.end('message received!');
       body = [];
     });
+  } else if (method === 'OPTIONS' && url === '/classes/messages') {
+    response.writeHead(200, headers);
+    response.end('OK');
   } else {
     response.writeHead(404, headers);
     response.end('invalid url');
@@ -92,3 +97,4 @@ var requestHandler = function(request, response) {
 // client from this domain by setting up static file serving.
 
 exports.requestHandler = requestHandler;
+exports.messages = messages;
