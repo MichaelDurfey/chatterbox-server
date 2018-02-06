@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans');
+
+#app {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  padding: 30px;
+}
+
+.container {
+  display: flex;
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  flex-flow: column nowrap;
+  width: 80%;
+}
+
+.header {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  padding: 30px;
+}
+
+.UNIV-container {
+  display: flex;
+}
+
+.CCV-container {
+  display: flex;
+  width: 70%;
+  flex-flow: column;
+/*  justify-content: center;*/
+  font-family: 'Noto Sans', sans-serif;
+  border: 1px solid;
+  padding: 25px;
+}
+
+.ChatContainerView {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.chatMessageContainer {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.chatViewHeader{
+  display: flex;
+  justify-content: center;
+}
+
+.chat-message {
+  font-size: 18px;
+  display: flex;
+  width: 100%;
+  flex-flow: row;
+  align-items: space-around;
+  /*justify-content: flex-start;  */
+}
+
+.message-content {
+  display: flex;
+  width: 80%;
+  /*justify-content: flex-end;*/
+  margin-left: 30px;
+  align-self: flex-end;
+  border-top: 1px solid #eee;
+}
+
+.username {
+  width: 20%;
+  display: flex;
+  align-self: flex-start;
+  background-color: #CEF2FF;
+}
