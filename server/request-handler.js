@@ -18,12 +18,10 @@ var defaultCorsHeaders = {
   'access-control-max-age': 10 // Seconds.
 };
 
-var messages = {};
+const messages = {};
 messages.results = [];
 
-
-
-exports.requestHandler = function(request, response) {
+var requestHandler = function(request, response) {
   // Request and Response come from node's http module.
   //
   // They include information about both the incoming request, such as
@@ -34,38 +32,38 @@ exports.requestHandler = function(request, response) {
   // http://nodejs.org/documentation/api/
 
   // Do some basic logging.
-  const {method, url} = request;
+  // Adding more logging to your server can be an easy way to get passive
+  // debugging help, but you should always be careful about leaving stray
+  // console.logs in your code.
+  // console.log('Serving request type ' + request.method + ' for url ' + request.url);
+  const {method, url } = request;
 
+  // The outgoing status.
+  var statusCode = 200;
   var headers = defaultCorsHeaders;
-  headers['Content-Type'] = 'text/plain';
+    
   let body = [];
-  const requestHeder = request.headers;
+  const requestHeader = request.headers;
   if (method === 'GET' && url === '/classes/messages') {
-    response.writeHead(200, headers);
+    response.writeHead(statusCode, headers);
     response.end(JSON.stringify(messages));
   } else if (method === 'POST' && url === '/classes/messages') {
-    console.log('this was a post');
+    // console.log('this was a post', request);
     response.writeHead(201, headers);
-    request.on('data', chunk => {
+    request.on('data', (chunk) => {
       body.push(chunk);
     }).on('end', () => {
       body = Buffer.concat(body).toString();
       messages.results.push(JSON.parse(body));
       response.end('message received!');
+      body = [];
     });
   } else {
     response.writeHead(404, headers);
     response.end('invalid url');
   }
-  //
-  // Adding more logging to your server can be an easy way to get passive
-  // debugging help, but you should always be careful about leaving stray
-  // console.logs in your code.
-  console.log('Serving request type ' + request.method + ' for url ' + request.url);
-
-  // The outgoing status.
-
   // See the note below about CORS headers.
+  //Response Headers:
 
   // Tell the client we are sending them plain text.
   //
@@ -93,4 +91,4 @@ exports.requestHandler = function(request, response) {
 // Another way to get around this restriction is to serve you chat
 // client from this domain by setting up static file serving.
 
-// exports.handleRequest = requestHandler;
+exports.requestHandler = requestHandler;
