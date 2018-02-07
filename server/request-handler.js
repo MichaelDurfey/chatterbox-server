@@ -1,4 +1,9 @@
+
+const fs = require('fs');
+var path = require('path');
 /*************************************************************
+
+  
 
 You should implement your request handler function in this file.
 
@@ -35,9 +40,24 @@ var requestHandler = function(request, response) {
   // Adding more logging to your server can be an easy way to get passive
   // debugging help, but you should always be careful about leaving stray
   // console.logs in your code.
-  // console.log('Serving request type ' + request.method + ' for url ' + request.url);
+  console.log('Serving request type ' + request.method + ' for url ' + request.url);
   const {method, url } = request;
   // console.log(`method ${method} from url ${url}`);
+
+  // GET to /classes/messages (data)
+  // send back the messages object
+  // POST to /classes/messages (data)
+  // store sent message in the messages.results array
+  // OPTIONS to /classes/messages (data)
+  // send back as headers the CORS info
+  // GET request to / (static file)
+  // serve index.html
+  // GET request to ______ (static file)
+  // serve ____ .js/.css/??
+
+
+
+  
 
   // The outgoing status.
   var statusCode = 200;
@@ -47,8 +67,39 @@ var requestHandler = function(request, response) {
   const requestHeader = request.headers;
   if (method === 'GET' && url === '/classes/messages') {
     headers['content-type'] = 'application/json';
+
     response.writeHead(statusCode, headers);
     response.end(JSON.stringify(messages));
+  } else if (method === 'GET' && url === '/') {
+    var filePath = '../client/index.html';
+    // console.log(filePath)
+
+    var contentType = 'text/html';
+
+    fs.readFile(filePath, function(error, content) {
+      response.writeHead(200, { 'Content-Type': 'text/html' });
+      response.end(content, 'utf-8');
+    });
+  } else if (method === 'GET' && url === '/build/bundle.js') {
+    var filePath = '../client/build/bundle.js';
+    // console.log(filePath)
+
+    var contentType = 'text/javascript';
+
+    fs.readFile(filePath, function(error, content) {
+      response.writeHead(200, { 'Content-Type': contentType });
+      response.end(content, 'utf-8');
+    });
+  } else if (method === 'GET' && url === '/app/styles/styles.css') {
+    var filePath = '../client/app/styles/styles.css';
+    // console.log(filePath)
+
+    var contentType = 'text/javascript';
+
+    fs.readFile(filePath, function(error, content) {
+      response.writeHead(200, { 'Content-Type': contentType });
+      response.end(content, 'utf-8');
+    });
   } else if (method === 'POST' && url === '/classes/messages') {
     console.log('this was a post', request);
     response.writeHead(201, headers);
